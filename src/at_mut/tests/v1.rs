@@ -1,4 +1,5 @@
 use super::super::AtMut;
+use alloc::collections::VecDeque;
 use alloc::string::{String, ToString};
 use alloc::vec;
 use orx_dim::D1;
@@ -13,6 +14,14 @@ fn target_fun<'a>(v1: &mut impl AtMut<D1, usize>, mut v2: impl AtMut<D1, String>
 fn vec_as_mut_at1() {
     let mut v1 = vec![1, 2, 3];
     let v2 = vec!["x".to_string(), "y".to_string()];
+    target_fun(&mut v1, v2);
+    assert_eq!(v1[2], 5);
+}
+
+#[test]
+fn vec_deque_as_mut_at1() {
+    let mut v1 = VecDeque::from(vec![1, 2, 3]);
+    let v2 = VecDeque::from(vec!["x".to_string(), "y".to_string()]);
     target_fun(&mut v1, v2);
     assert_eq!(v1[2], 5);
 }

@@ -1,4 +1,5 @@
 use crate::at::{At, AtCopied, FunAt};
+use alloc::collections::VecDeque;
 use alloc::string::{String, ToString};
 use alloc::vec;
 use orx_dim::{D1, D2};
@@ -40,8 +41,43 @@ fn vec_vec_as_at2() {
     // child
 
     let sum = vec2_sum(&v1);
-    assert_eq!(sum, 12);
+    assert_eq!(sum, 15);
 
+    assert!(v1.try_child(0).is_some());
+    assert!(v1.try_child(1).is_some());
+    assert!(v1.try_child(2).is_none());
+}
+
+#[test]
+fn vec_deque_vec_deque_as_at2() {
+    let v1 = VecDeque::from(vec![
+        VecDeque::from(vec![1, 2, 3]),
+        VecDeque::from(vec![4, 5]),
+    ]);
+    let v2 = VecDeque::from(vec![VecDeque::from(vec!["x".to_string(), "y".to_string()])]);
+    let res = target_fun(&v1, &&v2);
+    assert_eq!(res, 5);
+
+    let res = target_fun(&(&v1).copied(), &&v2);
+    assert_eq!(res, 5);
+
+    assert_eq!(vec2_sum(&v1), 15);
+    assert!(v1.try_child(0).is_some());
+    assert!(v1.try_child(1).is_some());
+    assert!(v1.try_child(2).is_none());
+}
+
+#[test]
+fn vec_vec_deque_as_at2() {
+    let v1 = vec![VecDeque::from(vec![1, 2, 3]), VecDeque::from(vec![4, 5])];
+    let v2 = vec![VecDeque::from(vec!["x".to_string(), "y".to_string()])];
+    let res = target_fun(&v1, &&v2);
+    assert_eq!(res, 5);
+
+    let res = target_fun(&(&v1).copied(), &&v2);
+    assert_eq!(res, 5);
+
+    assert_eq!(vec2_sum(&v1), 15);
     assert!(v1.try_child(0).is_some());
     assert!(v1.try_child(1).is_some());
     assert!(v1.try_child(2).is_none());
@@ -61,7 +97,7 @@ fn slice_vec_as_at2() {
     // child
 
     let sum = vec2_sum(&v1.copied());
-    assert_eq!(sum, 12);
+    assert_eq!(sum, 15);
 
     assert!(At::<D2, &usize>::try_child(&v1, 0).is_some());
     assert!(At::<D2, &usize>::try_child(&v1, 1).is_some());

@@ -1,4 +1,5 @@
 use super::super::{AtMut, FunMutAt};
+use alloc::collections::VecDeque;
 use alloc::string::{String, ToString};
 use alloc::vec;
 use alloc::vec::Vec;
@@ -31,6 +32,28 @@ fn vec_vec_as_at_mut2() {
     assert_eq!(v1[1][0], 6);
 
     // child_mut
+
+    vec2_inc(&mut v1, 2);
+    assert_eq!(v1[0][0], 11);
+    assert_eq!(v1[0][1], 12);
+    assert_eq!(v1[0][2], 3);
+    assert_eq!(v1[1][0], 16);
+    assert_eq!(v1[1][1], 15);
+
+    assert!(AtMut::<D2, usize>::try_child_mut(&mut v1, 0).is_some());
+    assert!(AtMut::<D2, usize>::try_child_mut(&mut v1, 1).is_some());
+    assert!(AtMut::<D2, usize>::try_child_mut(&mut v1, 2).is_none());
+}
+
+#[test]
+fn vec_deque_vec_deque_as_at_mut2() {
+    let mut v1 = VecDeque::from(vec![
+        VecDeque::from(vec![1, 2, 3]),
+        VecDeque::from(vec![4, 5]),
+    ]);
+    let v2 = VecDeque::from(vec![VecDeque::from(vec!["x".to_string(), "y".to_string()])]);
+    target_fun(&mut v1, v2);
+    assert_eq!(v1[1][0], 6);
 
     vec2_inc(&mut v1, 2);
     assert_eq!(v1[0][0], 11);

@@ -1,4 +1,5 @@
 use crate::at::{At, AtCopied, FunAt};
+use alloc::collections::VecDeque;
 use alloc::string::{String, ToString};
 use alloc::vec;
 use orx_dim::D1;
@@ -11,6 +12,17 @@ fn target_fun<'a>(v1: &impl At<D1, usize>, v2: &impl At<D1, &'a String>) -> usiz
 fn vec_as_at1() {
     let v1 = vec![1, 2, 3];
     let v2 = vec!["x".to_string(), "y".to_string()];
+    let res = target_fun(&v1, &&v2);
+    assert_eq!(res, 4);
+
+    let res = target_fun(&(&v1).copied(), &&v2);
+    assert_eq!(res, 4);
+}
+
+#[test]
+fn vec_deque_as_at1() {
+    let v1 = VecDeque::from(vec![1, 2, 3]);
+    let v2 = VecDeque::from(vec!["x".to_string(), "y".to_string()]);
     let res = target_fun(&v1, &&v2);
     assert_eq!(res, 4);
 

@@ -1,4 +1,5 @@
 use crate::at_mut::{AtMut, FunMutAt};
+use alloc::collections::VecDeque;
 use alloc::vec;
 use orx_dim::{D1, D2, D3};
 
@@ -11,6 +12,23 @@ fn increment_row(row: &mut (impl AtMut<D1, usize> + ?Sized)) {
 #[test]
 fn vec_vec_vec_as_at_mut3() {
     let mut values = vec![vec![vec![1, 2], vec![3, 4]], vec![vec![5, 6]]];
+
+    *AtMut::<D3, usize>::at_mut(&mut values, [1, 0, 1]) += 10;
+    let mut outer = AtMut::<D3, usize>::child_mut(&mut values, 0);
+    let mut row = AtMut::<D2, usize>::child_mut(&mut outer, 1);
+    increment_row(&mut row);
+
+    assert_eq!(*AtMut::<D3, usize>::at(&values, [1, 0, 1]), 16);
+    assert_eq!(*AtMut::<D3, usize>::at(&values, [0, 1, 0]), 13);
+    assert!(AtMut::<D3, usize>::try_child_mut(&mut values, 2).is_none());
+}
+
+#[test]
+fn vec_deque_vec_deque_vec_deque_as_at_mut3() {
+    let mut values = VecDeque::from(vec![
+        VecDeque::from(vec![VecDeque::from(vec![1, 2]), VecDeque::from(vec![3, 4])]),
+        VecDeque::from(vec![VecDeque::from(vec![5, 6])]),
+    ]);
 
     *AtMut::<D3, usize>::at_mut(&mut values, [1, 0, 1]) += 10;
     let mut outer = AtMut::<D3, usize>::child_mut(&mut values, 0);
