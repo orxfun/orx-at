@@ -1,3 +1,6 @@
+#[cfg(test)]
+mod tests;
+
 mod at_mut_trait;
 mod fun;
 mod fun1;

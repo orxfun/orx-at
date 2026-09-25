@@ -1,3 +1,6 @@
+#[cfg(test)]
+mod tests;
+
 mod at_trait;
 mod copied;
 mod fun;
