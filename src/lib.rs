@@ -19,3 +19,7 @@ extern crate std;
 
 mod at;
 mod at_mut;
+
+pub use at::{At, AtCopied};
+pub use at_mut::AtMut;
+pub use orx_dim::*;
