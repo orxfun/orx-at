@@ -1,0 +1,18 @@
+[package]
+name = "orx-at"
+version = "1.0.0"
+edition = "2024"
+authors = ["orxfun <orx.ugur.arikan@gmail.com>"]
+description = "Indexed access abstractions over collections"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/orxfun/orx-at/"
+keywords = ["vec", "vector", "algorithm", "trait", "monomorphisation"]
+categories = ["data-structures", "algorithms", "no-std"]
+
+[dependencies]
+derive-new = { version = "0.7", default-features = false }
+orx-dim = { git = "https://github.com/orxfun/orx-dim", branch = "feat!--define-dim-trait-provide-implementations" }
+
+[features]
+default = []
+std = []
