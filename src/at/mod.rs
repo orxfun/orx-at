@@ -12,6 +12,7 @@ mod fun3_child;
 mod fun3_child2;
 mod slice;
 mod vec;
+mod vec_deque;
 
 pub use at_trait::{At, AtCopied, AtNever};
 pub use copied::Copied;
