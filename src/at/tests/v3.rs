@@ -1,4 +1,4 @@
-use crate::at::{At, AtCopied, FunAt};
+use crate::at::{At, FunAt, copied::Copied};
 use alloc::collections::VecDeque;
 use alloc::vec;
 use orx_dim::{D1, D2, D3};
@@ -47,9 +47,9 @@ fn vec_vec_vec_as_at3() {
     assert_eq!(values[1][0][2], 8);
     assert_eq!(values[0][1][2], 5);
 
-    assert_eq!(target_fun(&(&values).copied(), &&values), 13);
+    assert_eq!(target_fun(&Copied::d3(&values), &&values), 13);
 
-    assert_eq!(vec3_sum(&(&values).copied()), 45);
+    assert_eq!(vec3_sum(&Copied::d3(&values)), 45);
 }
 
 #[test]
@@ -63,8 +63,9 @@ fn vec_deque_vec_deque_vec_deque_as_at3() {
         VecDeque::from(vec![VecDeque::from(vec![9])]),
     ]);
 
-    assert_eq!(target_fun(&(&values).copied(), &&values), 13);
-    assert_eq!(vec3_sum(&(&values).copied()), 45);
+    assert_eq!(target_fun(&Copied::d3(&values), &&values), 13);
+
+    assert_eq!(vec3_sum(&Copied::d3(&values)), 45);
 }
 
 #[test]
@@ -76,9 +77,9 @@ fn slices_and_copied_as_at3() {
     ];
     let values = owned.as_slice();
 
-    assert_eq!(target_fun(&values.copied(), &values), 13);
+    assert_eq!(target_fun(&Copied::d3(values), &values), 13);
 
-    assert_eq!(vec3_sum(&values.copied()), 45);
+    assert_eq!(vec3_sum(&Copied::d3(values)), 45);
 }
 
 #[test]

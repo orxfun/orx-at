@@ -2,6 +2,7 @@
 mod tests;
 
 mod at_trait;
+// mod cloned;
 mod copied;
 mod fun;
 mod fun1;
@@ -14,8 +15,8 @@ mod slice;
 mod vec;
 mod vec_deque;
 
-pub use at_trait::{At, AtCopied, AtNever};
-pub use copied::Copied;
+pub use at_trait::{At, AtNever};
+pub use copied::AtCopied;
 pub use fun::FunAt;
 pub use fun2_child::FunAt2Child;
 pub use fun3_child::FunAt3Child;

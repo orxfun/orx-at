@@ -1,4 +1,3 @@
-use crate::at::Copied;
 use orx_dim::{DNever, Dim, IdxNever};
 
 pub trait At<D: Dim, T> {
@@ -40,23 +39,4 @@ impl<T> At<DNever, T> for AtNever {
     fn try_child<'c>(&'c self, _: IdxNever) -> Option<Self::Child<'c>> {
         unreachable!()
     }
-}
-
-// copied
-
-pub trait AtCopied<D: Dim>: Sized {
-    fn copied<'a, T>(self) -> Copied<'a, D, T, Self>
-    where
-        T: Copy + 'a,
-        Self: At<D, &'a T>,
-    {
-        Copied::new(self)
-    }
-}
-
-impl<D, V> AtCopied<D> for V
-where
-    D: Dim,
-    V: Sized,
-{
 }
